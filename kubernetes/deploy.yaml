@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: python-app
-        image: ${IMAGE_NAME}
+        image: IMAGE_NAME
         ports:
         - name: app-port
           containerPort: 8080
