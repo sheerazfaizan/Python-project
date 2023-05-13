@@ -8,10 +8,10 @@ pipeline {
        registryCredential = 'ecr:us-east-1:awscreds'
        appRegistry        = "172166620596.dkr.ecr.us-east-1.amazonaws.com/pythonecr"
        pythonRegistry     = "https://172166620596.dkr.ecr.us-east-1.amazonaws.com"
-       KOPS_CLUSTER_DEV   = "dev"
-       KOPS_CLUSTER_QA    = "qa"
-       KOPS_CLUSTER_PROD  = "prod"
-    }
+    //    KOPS_CLUSTER_DEV   = "dev"
+    //    KOPS_CLUSTER_QA    = "qa"
+    //    KOPS_CLUSTER_PROD  = "prod"
+    // }
     stages {
         stage('GitCheckout') {
             steps {
@@ -38,18 +38,10 @@ pipeline {
          }
 
         stage('Deploy to KOPS Cluster') {
-            // when {
-            //     anyOf {
-            //         environment name: 'BUILD_ENV', value: 'dev'
-            //         environment name: 'BUILD_ENV', value: 'qa'
-            //         environment name: 'BUILD_ENV', value: 'prod'
-            //     }
-            // }
             agent {label 'KOPS'}
             steps {         
                 // Update Kubernetes manifest to use ECR image
                 script {
-                    // def kopsCluster = env['KOPS_CLUSTER_' + $ENVIRONMENT ]
                     def manifestPath = "./kubernetes/deploy.yaml"
                     def ecrImage = "${appRegistry}:${BUILD_NUMBER}"
                     sh "echo $ecrImage"
