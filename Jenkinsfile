@@ -20,6 +20,7 @@ pipeline {
                 script {
                     dockerImage = docker.build(appRegistry + ":$BUILD_NUMBER", "./")
                 }
+            }
         }
 
         stage('Push Docker Image to ECR') {
@@ -63,8 +64,8 @@ pipeline {
         }
      }
 
-    }
 }
+
         
 
         
