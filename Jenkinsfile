@@ -49,7 +49,7 @@ pipeline {
             steps {         
                 // Update Kubernetes manifest to use ECR image
                 script {
-                    def kopsCluster = env['KOPS_CLUSTER_' + $ENVIRONMENT ]
+                    // def kopsCluster = env['KOPS_CLUSTER_' + $ENVIRONMENT ]
                     def manifestPath = "./kubernetes/deploy.yaml"
                     def ecrImage = "${BUILD_NUMBER}"
                     
@@ -57,9 +57,9 @@ pipeline {
                     sh "sed -i 's#<IMAGE_NAME>#${ecrImage}#' ${manifestPath}"
                     
                     // Apply updated manifest to Kubernetes cluster
-                    sh "kubectl create namespace $kopsCluster"
-                    sh "kubectl apply -f ./kubernetes/deploy.yaml -n $kopsCluster"
-                    sh "kubectl apply -f ./kubernetes/service.yaml -n $kopsCluster"
+                    sh "kubectl create namespace $ENVIRONMENT"
+                    sh "kubectl apply -f ./kubernetes/deploy.yaml -n $ENVIRONMENT"
+                    sh "kubectl apply -f ./kubernetes/service.yaml -n $ENVIRONMENT"
                 
                 }
             }
