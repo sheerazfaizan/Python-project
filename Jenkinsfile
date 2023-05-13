@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage('GitCheckout') {
             steps {
-                git branch: 'main', url: 'https://github.com/sheerazfaizan/Python-project.git   '
+                git branch: 'main', url: 'https://github.com/sheerazfaizan/Python-project.git'
             }
         }
         stage('Build') {
