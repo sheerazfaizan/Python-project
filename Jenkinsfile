@@ -55,7 +55,7 @@ pipeline {
                     sh "echo $ecrImage"
                     
                     // Replace image in Kubernetes manifest
-                    sh "sed -i 's/${IMAGE_NAME}/$ecrImage/g' ./kubernetes/deploy.yaml"
+                    sh "sed -i 's/IMAGE_NAME/$ecrImage/g' ./kubernetes/deploy.yaml"
                     
                     // Apply updated manifest to Kubernetes cluster
                     sh "kubectl create namespace $ENVIRONMENT"
