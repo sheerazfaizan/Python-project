@@ -21,7 +21,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    dockerImage = docker.build(appRegistry + ":$BUILD_NUMBER", "./")
+                    dockerImage = docker.build("${appRegistry}:${BUILD_NUMBER}", "./")
                 }
             }
         }
@@ -51,7 +51,7 @@ pipeline {
                 script {
                     // def kopsCluster = env['KOPS_CLUSTER_' + $ENVIRONMENT ]
                     def manifestPath = "./kubernetes/deploy.yaml"
-                    def ecrImage = "${BUILD_NUMBER}"
+                    def ecrImage = "${appRegistry}:${BUILD_NUMBER}"
                     
                     // Replace image in Kubernetes manifest
                     sh "sed -i 's#<IMAGE_NAME>#${ecrImage}#' ${manifestPath}"
