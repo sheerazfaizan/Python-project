@@ -8,9 +8,6 @@ pipeline {
        registryCredential = 'ecr:us-east-1:awscreds'
        appRegistry        = "172166620596.dkr.ecr.us-east-1.amazonaws.com/pythonecr"
        pythonRegistry     = "https://172166620596.dkr.ecr.us-east-1.amazonaws.com"
-    //    KOPS_CLUSTER_DEV   = "dev"
-    //    KOPS_CLUSTER_QA    = "qa"
-    //    KOPS_CLUSTER_PROD  = "prod"
     }
     stages {
         stage('GitCheckout') {
