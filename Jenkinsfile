@@ -1,5 +1,5 @@
 pipeline {
-    agent {label 'KOPS'}
+    agent any
 
     environment {
        registryCredential = 'ecr:us-east-1:awscreds'
@@ -25,6 +25,7 @@ pipeline {
           
                 // Update Kubernetes manifest to use ECR image
                 script {
+                    node('KOPS')
                     def manifestPath = "./kubernetes/deploy.yaml"
                     def ecrImage = "${BUILD_NUMBER}"
                     
