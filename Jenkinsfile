@@ -52,9 +52,10 @@ pipeline {
                     // def kopsCluster = env['KOPS_CLUSTER_' + $ENVIRONMENT ]
                     def manifestPath = "./kubernetes/deploy.yaml"
                     def ecrImage = "${appRegistry}:${BUILD_NUMBER}"
+                    sh "echo $ecrImage"
                     
                     // Replace image in Kubernetes manifest
-                    sh "sed -i 's#<IMAGE_NAME>#${ecrImage}#' ${manifestPath}"
+                    sh "sed -i 's#<IMAGE_NAME>#${ecrImage}#' ./kubernetes/deploy.yaml"
                     
                     // Apply updated manifest to Kubernetes cluster
                     sh "kubectl create namespace $ENVIRONMENT"
