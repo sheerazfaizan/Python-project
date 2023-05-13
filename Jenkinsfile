@@ -1,6 +1,6 @@
 pipeline {
     parameters {
-    string(name: 'BUILD_ENV', defaultValue: 'dev', description: 'Environment to deploy to (dev, qa, or prod)')
+    string(name: 'ENVIRONMENT', defaultValue: 'dev', description: 'Environment to deploy to (dev, qa, or prod)')
     }
     agent any
 
@@ -38,18 +38,18 @@ pipeline {
          }
 
         stage('Deploy to KOPS Cluster') {
-            when {
-                anyOf {
-                    environment name: 'BUILD_ENV', value: 'dev'
-                    environment name: 'BUILD_ENV', value: 'qa'
-                    environment name: 'BUILD_ENV', value: 'prod'
-                }
-            }
+            // when {
+            //     anyOf {
+            //         environment name: 'BUILD_ENV', value: 'dev'
+            //         environment name: 'BUILD_ENV', value: 'qa'
+            //         environment name: 'BUILD_ENV', value: 'prod'
+            //     }
+            // }
             agent {label 'KOPS'}
             steps {         
                 // Update Kubernetes manifest to use ECR image
                 script {
-                    def kopsCluster = env['KOPS_CLUSTER_' + env.BUILD_ENV.toUpperCase()]
+                    def kopsCluster = env['KOPS_CLUSTER_' + $ENVIRONMENT ]
                     def manifestPath = "./kubernetes/deploy.yaml"
                     def ecrImage = "${BUILD_NUMBER}"
                     
