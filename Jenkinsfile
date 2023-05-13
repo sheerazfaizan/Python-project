@@ -11,7 +11,7 @@ pipeline {
     //    KOPS_CLUSTER_DEV   = "dev"
     //    KOPS_CLUSTER_QA    = "qa"
     //    KOPS_CLUSTER_PROD  = "prod"
-    // }
+    }
     stages {
         stage('GitCheckout') {
             steps {
