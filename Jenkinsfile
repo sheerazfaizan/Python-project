@@ -25,7 +25,7 @@ pipeline {
           
                 // Update Kubernetes manifest to use ECR image
                 script {
-                    node('KOPS')
+                    agent {label 'KOPS'}
                     def manifestPath = "./kubernetes/deploy.yaml"
                     def ecrImage = "${BUILD_NUMBER}"
                     
