@@ -1,4 +1,7 @@
 pipeline {
+    parameters {
+    string(name: 'BUILD_ENV', defaultValue: 'dev', description: 'Environment to deploy to (dev, qa, or prod)')
+    }
     agent any
 
     environment {
