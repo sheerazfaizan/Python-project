@@ -23,7 +23,7 @@ pipeline {
         }
 
         stage('Push Docker Image to ECR') {
-            steps{   
+            steps {   
                 script {
                     docker.withRegistry( pythonRegistry, registryCredential ) {
                         dockerImage.push("$BUILD_NUMBER") 
