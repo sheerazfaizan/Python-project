@@ -40,73 +40,73 @@ pipeline {
             
         }
 
-        stage('QA'){
-            steps {
-                git branch: 'main', credentialsId: 'gitsshkey', url: 'git@github.com:QuadriDevOps1/ci-cd-with-kube.git'
-            }
-            steps {
-                script {
-                    dockerImage = docker.build(appRegistry + ":$BUILD_NUMBER", "./")
-                }
-            }
-            steps{
-                script {
-                    docker.withRegistry( pythonRegistry, registryCredential ) {
-                        dockerImage.push("$BUILD_NUMBER") 
-                        dockerImage.push('latest')
-                    }
-                }
-            }
-            steps {
-                // Update Kubernetes manifest to use ECR image
-                script {
-                    def manifestPath = "./kubernetes/app/appdep.yml"
-                    def ecrImage = "${BUILD_NUMBER}"
+    //     stage('QA'){
+    //         steps {
+    //             git branch: 'main', credentialsId: 'gitsshkey', url: 'git@github.com:QuadriDevOps1/ci-cd-with-kube.git'
+    //         }
+    //         steps {
+    //             script {
+    //                 dockerImage = docker.build(appRegistry + ":$BUILD_NUMBER", "./")
+    //             }
+    //         }
+    //         steps{
+    //             script {
+    //                 docker.withRegistry( pythonRegistry, registryCredential ) {
+    //                     dockerImage.push("$BUILD_NUMBER") 
+    //                     dockerImage.push('latest')
+    //                 }
+    //             }
+    //         }
+    //         steps {
+    //             // Update Kubernetes manifest to use ECR image
+    //             script {
+    //                 def manifestPath = "./kubernetes/app/appdep.yml"
+    //                 def ecrImage = "${BUILD_NUMBER}"
                     
-                    // Replace image in Kubernetes manifest
-                    sh "sed -i 's#<IMAGE_NAME>#${ecrImage}#' ${manifestPath}"
+    //                 // Replace image in Kubernetes manifest
+    //                 sh "sed -i 's#<IMAGE_NAME>#${ecrImage}#' ${manifestPath}"
                     
-                    // Apply updated manifest to Kubernetes cluster
-                    sh "kubectl create namespace prod"
-                    sh "kubectl apply -f ${manifestPath} -n prod"
+    //                 // Apply updated manifest to Kubernetes cluster
+    //                 sh "kubectl create namespace prod"
+    //                 sh "kubectl apply -f ${manifestPath} -n prod"
                    
-                }
-            }
-        }
+    //             }
+    //         }
+    //     }
 
-        stage('PROD'){
-            steps {
-                git branch: 'main', credentialsId: 'gitsshkey', url: 'git@github.com:QuadriDevOps1/ci-cd-with-kube.git'
-            }
-            steps {
-                script {
-                    dockerImage = docker.build(appRegistry + ":$BUILD_NUMBER", "./")
-                }
-            }
-            steps{
-                script {
-                    docker.withRegistry( pythonRegistry, registryCredential ) {
-                        dockerImage.push("$BUILD_NUMBER") 
-                        dockerImage.push('latest')
-                    }
-                }
-            }
-            steps {
-                // Update Kubernetes manifest to use ECR image
-                script {
-                    def manifestPath = "./kubernetes/app/appdep.yml"
-                    def ecrImage = "${BUILD_NUMBER}"
+    //     stage('PROD'){
+    //         steps {
+    //             git branch: 'main', credentialsId: 'gitsshkey', url: 'git@github.com:QuadriDevOps1/ci-cd-with-kube.git'
+    //         }
+    //         steps {
+    //             script {
+    //                 dockerImage = docker.build(appRegistry + ":$BUILD_NUMBER", "./")
+    //             }
+    //         }
+    //         steps{
+    //             script {
+    //                 docker.withRegistry( pythonRegistry, registryCredential ) {
+    //                     dockerImage.push("$BUILD_NUMBER") 
+    //                     dockerImage.push('latest')
+    //                 }
+    //             }
+    //         }
+    //         steps {
+    //             // Update Kubernetes manifest to use ECR image
+    //             script {
+    //                 def manifestPath = "./kubernetes/app/appdep.yml"
+    //                 def ecrImage = "${BUILD_NUMBER}"
                     
-                    // Replace image in Kubernetes manifest
-                    sh "sed -i 's#<IMAGE_NAME>#${ecrImage}#' ${manifestPath}"
+    //                 // Replace image in Kubernetes manifest
+    //                 sh "sed -i 's#<IMAGE_NAME>#${ecrImage}#' ${manifestPath}"
                     
-                    // Apply updated manifest to Kubernetes cluster
-                    sh "kubectl create namespace prod"
-                    sh "kubectl apply -f ${manifestPath} -n prod"
+    //                 // Apply updated manifest to Kubernetes cluster
+    //                 sh "kubectl create namespace prod"
+    //                 sh "kubectl apply -f ${manifestPath} -n prod"
                    
-                }
-            }
-        }
+    //             }
+    //         }
+    //     }
      }
 
     }
