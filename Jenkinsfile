@@ -10,21 +10,19 @@ pipeline {
         stage('DEV'){
             steps {
                 git branch: 'main', url: 'https://github.com/sheerazfaizan/Python-project.git   '
-            }
-            steps {
+           
                 script {
                     dockerImage = docker.build(appRegistry + ":$BUILD_NUMBER", "./")
                 }
-            }
-            steps{
+            
+            
                 script {
                     docker.withRegistry( pythonRegistry, registryCredential ) {
                         dockerImage.push("$BUILD_NUMBER") 
                         dockerImage.push('latest')
                     }
                 }
-            }
-            steps {
+          
                 // Update Kubernetes manifest to use ECR image
                 script {
                     def manifestPath = "./kubernetes/deploy.yaml"
@@ -39,7 +37,7 @@ pipeline {
                     sh "kubectl apply -f ./kubernetes/service.yaml -n dev"
                    
                 }
-            }
+            
         }
 
         stage('QA'){
@@ -111,7 +109,7 @@ pipeline {
         }
      }
 
-     
+    }
 }
         
 
